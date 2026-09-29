@@ -100,57 +100,57 @@ def sync_cycle():
 
     commit_msg = generate_commit_message(changes)
 
-    print("\n" + "=" * 65)
-    print(f"[{datetime.now().strftime('%H:%M:%S')}] Detected {len(changes)} file change(s):")
+    print("\n" + "=" * 65, flush=True)
+    print(f"[{datetime.now().strftime('%H:%M:%S')}] Detected {len(changes)} file change(s):", flush=True)
     for action, fname in changes:
-        print(f"   - {action:10s} : {fname}")
-    print(f"\n[Generated Commit Message]:")
-    print(f"   \"{commit_msg}\"")
-    print("=" * 65)
+        print(f"   - {action:10s} : {fname}", flush=True)
+    print(f"\n[Generated Commit Message]:", flush=True)
+    print(f"   \"{commit_msg}\"", flush=True)
+    print("=" * 65, flush=True)
 
     # 1. Stage changes
-    print("-> Staging files with 'git add -A'...")
+    print("-> Staging files with 'git add -A'...", flush=True)
     run_git_command(["add", "-A"])
 
     # 2. Commit changes
-    print("-> Committing changes...")
+    print("-> Committing changes...", flush=True)
     commit_res = run_git_command(["commit", "-m", commit_msg], check=False)
     if commit_res.returncode != 0:
-        print(f"[!] Commit skipped: {commit_res.stdout.strip() or commit_res.stderr.strip()}")
+        print(f"[!] Commit skipped: {commit_res.stdout.strip() or commit_res.stderr.strip()}", flush=True)
         return False
 
     # 3. Push to remote main (strictly without --force)
-    print(f"-> Pushing to {REMOTE} {BRANCH} (safe fast-forward, no force)...")
+    print(f"-> Pushing to {REMOTE} {BRANCH} (safe fast-forward, no force)...", flush=True)
     push_res = run_git_command(["push", REMOTE, BRANCH], check=False)
     if push_res.returncode == 0:
-        print("[SUCCESS] Successfully synchronized with GitHub repository!")
-        print(push_res.stderr.strip() or push_res.stdout.strip())
+        print("[SUCCESS] Successfully synchronized with GitHub repository!", flush=True)
+        print(push_res.stderr.strip() or push_res.stdout.strip(), flush=True)
     else:
-        print(f"[ERROR] Push failed:\n{push_res.stderr.strip()}")
+        print(f"[ERROR] Push failed:\n{push_res.stderr.strip()}", flush=True)
 
-    print("-" * 65 + "\n")
+    print("-" * 65 + "\n", flush=True)
     return True
 
 
 def watch_and_sync():
     """Continuously monitors the repository and triggers sync on changes."""
-    print("=" * 65)
-    print("  codealpha_automation - Auto Git Sync Service")
-    print(f"  Watching: {PROJECT_DIR}")
-    print(f"  Target:   {REMOTE}/{BRANCH}")
-    print(f"  Check interval: {POLL_INTERVAL} seconds")
-    print("  Press Ctrl+C to stop.")
-    print("=" * 65 + "\n")
+    print("=" * 65, flush=True)
+    print("  codealpha_automation - Auto Git Sync Service", flush=True)
+    print(f"  Watching: {PROJECT_DIR}", flush=True)
+    print(f"  Target:   {REMOTE}/{BRANCH}", flush=True)
+    print(f"  Check interval: {POLL_INTERVAL} seconds", flush=True)
+    print("  Press Ctrl+C to stop.", flush=True)
+    print("=" * 65 + "\n", flush=True)
 
     try:
         while True:
             try:
                 sync_cycle()
             except Exception as e:
-                print(f"[!] Error during sync cycle: {e}")
+                print(f"[!] Error during sync cycle: {e}", flush=True)
             time.sleep(POLL_INTERVAL)
     except KeyboardInterrupt:
-        print("\n[STOPPED] Auto Git Sync stopped by user.")
+        print("\n[STOPPED] Auto Git Sync stopped by user.", flush=True)
 
 
 if __name__ == "__main__":
