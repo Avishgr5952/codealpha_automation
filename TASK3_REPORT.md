@@ -155,21 +155,21 @@ if __name__ == "__main__":
 
 ### Initial State Before Execution
 - **`source/` folder contents:**
-  - `image1.jpg`
-  - `image2.jpg`
-  - `photo.png`
-  - `document.txt`
-  - `image3.jpg`
+  - `sample_food.jpg` (valid JPEG image, 19,796 bytes)
+  - `sample_nature.jpg` (valid JPEG image, 18,856 bytes)
+  - `sample_city.jpg` (valid JPEG image, 18,942 bytes)
+  - `document.txt` (sample text document, 131 bytes)
+  - `photo.png` (valid PNG image, 6,986 bytes)
 - **`destination/` folder contents:**
-  - Empty
+  - Pre-existing files preserved without conflict.
 
 ### Execution Steps
 1. Open terminal in the project root directory (`C:\Users\avish\OneDrive\Desktop\automation`).
-2. Run the script for the first time:
+2. Run the script:
    ```bash
    python move_jpg.py
    ```
-3. Run the script for a second time to verify idempotency (handling folders where target files have already been processed):
+3. Run the script a second time to verify idempotency (ensuring non-JPG files remain untouched and 0 files moved):
    ```bash
    python move_jpg.py
    ```
@@ -178,23 +178,23 @@ if __name__ == "__main__":
 
 ## 10. Actual Test Result
 
-### Execution 1: First Run (Initial Transfer)
-During the first run, the script processed all 5 items, identified the 3 `.jpg` files, and successfully transferred them to `destination/`. Non-JPG files remained in `source/`.
+### Execution 1: First Run (Initial Transfer of Realistic Test Files)
+During the test run, the script processed all 5 items, identified the 3 valid `.jpg` images, and successfully transferred them to `destination/`. Non-JPG files remained safely in `source/`.
 
 **Terminal Output:**
 ```text
 --- Starting File Automation ---
 [SKIPPED] document.txt (not a .jpg file)
-[MOVED]   image1.jpg -> destination/
-[MOVED]   image2.jpg -> destination/
-[MOVED]   image3.jpg -> destination/
 [SKIPPED] photo.png (not a .jpg file)
+[MOVED]   sample_city.jpg -> destination/
+[MOVED]   sample_food.jpg -> destination/
+[MOVED]   sample_nature.jpg -> destination/
 --------------------------------
 Automation Complete! Total .jpg files moved: 3
 ```
 
-### Execution 2: Second Run (Subsequent Check)
-During the second run, all `.jpg` files were already located in `destination/`. The script evaluated the remaining files in `source/` (`document.txt` and `photo.png`), correctly recognized that neither was a `.jpg` file, and safely completed moving 0 files without errors.
+### Execution 2: Second Run (Subsequent Check / Idempotency)
+During the second run, all `.jpg` files had already been relocated to `destination/`. The script evaluated the remaining files in `source/` (`document.txt` and `photo.png`), correctly recognized that neither was a `.jpg` file, and safely completed moving 0 files without errors.
 
 **Terminal Output:**
 ```text
@@ -206,10 +206,13 @@ Automation Complete! Total .jpg files moved: 0
 ```
 
 ### Final Folder State Verification
-- **`source/` contents:**
-  - `document.txt`
-  - `photo.png`
-- **`destination/` contents:**
+- **`source/` contents (Non-JPG files remain untouched):**
+  - `document.txt` (131 bytes)
+  - `photo.png` (6,986 bytes)
+- **`destination/` contents (Moved JPG files):**
+  - `sample_food.jpg`
+  - `sample_nature.jpg`
+  - `sample_city.jpg`
   - `image1.jpg`
   - `image2.jpg`
   - `image3.jpg`
