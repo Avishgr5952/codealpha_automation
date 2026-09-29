@@ -42,3 +42,9 @@ automation/
 ## Output Behavior
 - **First Run:** Moves all detected `.jpg` files from `source/` to `destination/` and outputs a confirmation message for each file moved.
 - **Subsequent Runs:** If all `.jpg` files are already moved, the script safely reports that 0 files were moved, without causing errors or modifying non-JPG files.
+
+---
+
+## Auto Git Synchronization
+This project includes an automated synchronization service (`auto_sync.py` / `start_sync.bat`) that continuously monitors the project directory for changes, automatically stages and commits them with clear change summaries, and safely pushes them to `origin/main`.
+
