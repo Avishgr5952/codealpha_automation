@@ -103,7 +103,7 @@ def sync_cycle():
     print("\n" + "=" * 65)
     print(f"[{datetime.now().strftime('%H:%M:%S')}] Detected {len(changes)} file change(s):")
     for action, fname in changes:
-        print(f"   • {action:10s} : {fname}")
+        print(f"   - {action:10s} : {fname}")
     print(f"\n[Generated Commit Message]:")
     print(f"   \"{commit_msg}\"")
     print("=" * 65)
