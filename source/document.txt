@@ -1,0 +1,1 @@
+This is a sample document for testing the Task 3 JPG automation script. Non-JPG files must remain untouched in the source folder.
